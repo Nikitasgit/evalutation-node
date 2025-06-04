@@ -2,14 +2,11 @@ import { env } from "./config/env";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import router from "./routes";
 
 const app = express();
 
 const { PORT, ORIGIN } = env;
-
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
@@ -18,6 +15,11 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/", router);
 
 app.listen(PORT, () => {
   console.log("Le serveur est en écoute sur: http://localhost:" + PORT);

@@ -1,0 +1,13 @@
+[04-06-2025 15:02:43] - [[31merror[39m]: Erreur lors de l'inscription de l'utilisateur: [
+  {
+    "code": "too_small",
+    "minimum": 6,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "L'username doit contenir au moins 6 caractères ",
+    "path": [
+      "username"
+    ]
+  }
+]
