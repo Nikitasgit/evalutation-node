@@ -1,8 +1,11 @@
 import { db } from "../config/pool";
 import logger from "../utils/logger";
 import { users } from "../schemas";
-import { NewUser } from "../entities/User";
+import { NewUser, User } from "../entities/User";
 import { eq } from "drizzle-orm";
+import { fishes } from "../schemas";
+import { places } from "../schemas";
+import { fishingRods } from "../schemas";
 
 export const userModel = {
   getAll: () => {
@@ -81,6 +84,30 @@ export const userModel = {
         `Erreur lors de la création de l'utilisateur; ${err.message}`
       );
       throw new Error("Impossible de créer l'utilisateur");
+    }
+  },
+  update: (id: string, user: NewUser) => {
+    try {
+      return db.update(users).set(user).where(eq(users.id, id)).returning({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+      });
+    } catch (err: any) {
+      logger.error(
+        `Erreur lors de la mise à jour de l'utilisateur; ${err.message}`
+      );
+      throw new Error("Impossible de mettre à jour l'utilisateur");
+    }
+  },
+  delete: async (id: string) => {
+    try {
+      return db.delete(users).where(eq(users.id, id));
+    } catch (err: any) {
+      logger.error(
+        `Erreur lors de la suppression de l'utilisateur; ${err.message}`
+      );
+      throw new Error("Impossible de supprimer l'utilisateur");
     }
   },
 };

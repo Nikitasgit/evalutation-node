@@ -15,3 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./users.validations"), exports);
+__exportStar(require("./place.validations"), exports);
+__exportStar(require("./fish.validations"), exports);
+__exportStar(require("./fishingRod.validations"), exports);

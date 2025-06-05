@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fishingRod_model_1 = require("../models/fishingRod.model");
 const logger_1 = __importDefault(require("../utils/logger"));
 const response_1 = require("../utils/response");
+const fishingRod_model_1 = require("../models/fishingRod.model");
+const validations_1 = require("../validations");
 const fishingRodController = {
     getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -42,7 +43,7 @@ const fishingRodController = {
     }),
     create: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const { name } = request.body;
+            const { name } = validations_1.fishingRodValidation.parse(request.body);
             const { user } = response.locals;
             if (!name) {
                 return (0, response_1.APIResponse)(response, null, "Le nom de la canne à pêche est requis", 400);
@@ -65,7 +66,7 @@ const fishingRodController = {
     update: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = request.params;
-            const { name } = request.body;
+            const { name } = validations_1.fishingRodValidation.parse(request.body);
             const { user } = response.locals;
             if (!name) {
                 return (0, response_1.APIResponse)(response, null, "Le nom de la canne à pêche est requis", 400);

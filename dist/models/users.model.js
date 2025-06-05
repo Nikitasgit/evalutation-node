@@ -93,4 +93,26 @@ exports.userModel = {
             throw new Error("Impossible de créer l'utilisateur");
         }
     },
+    update: (id, user) => {
+        try {
+            return pool_1.db.update(schemas_1.users).set(user).where((0, drizzle_orm_1.eq)(schemas_1.users.id, id)).returning({
+                id: schemas_1.users.id,
+                username: schemas_1.users.username,
+                email: schemas_1.users.email,
+            });
+        }
+        catch (err) {
+            logger_1.default.error(`Erreur lors de la mise à jour de l'utilisateur; ${err.message}`);
+            throw new Error("Impossible de mettre à jour l'utilisateur");
+        }
+    },
+    delete: (id) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            return pool_1.db.delete(schemas_1.users).where((0, drizzle_orm_1.eq)(schemas_1.users.id, id));
+        }
+        catch (err) {
+            logger_1.default.error(`Erreur lors de la suppression de l'utilisateur; ${err.message}`);
+            throw new Error("Impossible de supprimer l'utilisateur");
+        }
+    }),
 };

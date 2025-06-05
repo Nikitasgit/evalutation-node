@@ -3,7 +3,7 @@ import { APIResponse } from "../utils/response";
 import logger from "../utils/logger";
 import { placeModel } from "../models";
 import { z } from "zod";
-import { placeValidation } from "../validations/place.validations";
+import { placeValidation } from "../validations";
 
 const placesController = {
   get: async (request: Request, response: Response) => {

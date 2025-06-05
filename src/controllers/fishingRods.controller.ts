@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { fishingRodModel } from "../models/fishingRod.model";
 import logger from "../utils/logger";
 import { APIResponse } from "../utils/response";
+import { fishingRodModel } from "../models/fishingRod.model";
+import { fishingRodValidation } from "../validations";
 
 const fishingRodController = {
   getAll: async (req: Request, res: Response) => {
@@ -42,7 +43,7 @@ const fishingRodController = {
 
   create: async (request: Request, response: Response) => {
     try {
-      const { name } = request.body;
+      const { name } = fishingRodValidation.parse(request.body);
       const { user } = response.locals;
       if (!name) {
         return APIResponse(
@@ -82,7 +83,7 @@ const fishingRodController = {
   update: async (request: Request, response: Response) => {
     try {
       const { id } = request.params;
-      const { name } = request.body;
+      const { name } = fishingRodValidation.parse(request.body);
       const { user } = response.locals;
 
       if (!name) {

@@ -8,5 +8,5 @@ exports.fishingRods = (0, pg_core_1.pgTable)("fishing_rods", {
     name: (0, pg_core_1.varchar)("name", { length: 255 }).notNull(),
     createdById: (0, pg_core_1.uuid)("created_by_id")
         .notNull()
-        .references(() => user_schema_1.users.id),
+        .references(() => user_schema_1.users.id, { onDelete: "cascade" }),
 });

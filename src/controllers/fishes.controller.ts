@@ -3,7 +3,7 @@ import { APIResponse } from "../utils/response";
 import logger from "../utils/logger";
 import { fishModel, placeModel } from "../models";
 import { z } from "zod";
-import { fishValidation } from "../validations/fish.validations";
+import { fishValidation } from "../validations";
 
 const fishesController = {
   get: async (request: Request, response: Response) => {

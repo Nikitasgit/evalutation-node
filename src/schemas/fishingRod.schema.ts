@@ -6,5 +6,5 @@ export const fishingRods = pgTable("fishing_rods", {
   name: varchar("name", { length: 255 }).notNull(),
   createdById: uuid("created_by_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
 });

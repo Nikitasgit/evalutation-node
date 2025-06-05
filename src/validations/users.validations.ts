@@ -25,3 +25,12 @@ export const userRegisterValidation = z.object({
       message: "Votre mot de passe doit contenir au moins un caractère spécial",
     }),
 });
+
+export const userUpdateValidation = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(6, { message: "L'username doit contenir au moins 6 caractères " })
+    .max(13, { message: "L'username doit contenir maximum 13 caractères" }),
+  email: z.string().trim().email({ message: "Adresse email invalide" }),
+});

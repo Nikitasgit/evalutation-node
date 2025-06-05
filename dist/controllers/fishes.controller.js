@@ -16,7 +16,7 @@ const response_1 = require("../utils/response");
 const logger_1 = __importDefault(require("../utils/logger"));
 const models_1 = require("../models");
 const zod_1 = require("zod");
-const fish_validations_1 = require("../validations/fish.validations");
+const validations_1 = require("../validations");
 const fishesController = {
     get: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -34,7 +34,7 @@ const fishesController = {
     }),
     create: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const { name, placeId } = fish_validations_1.fishValidation.parse(request.body);
+            const { name, placeId } = validations_1.fishValidation.parse(request.body);
             const { user } = response.locals;
             logger_1.default.info("[POST] Créer un poisson");
             const place = yield models_1.placeModel.get(placeId);
@@ -79,7 +79,7 @@ const fishesController = {
     update: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = request.params;
-            const { name, placeId } = fish_validations_1.fishValidation.parse(request.body);
+            const { name, placeId } = validations_1.fishValidation.parse(request.body);
             const { user } = response.locals;
             logger_1.default.info("[UPDATE] Update d'un poisson");
             const place = yield models_1.placeModel.get(placeId);

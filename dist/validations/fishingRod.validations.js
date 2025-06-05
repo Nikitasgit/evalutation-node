@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fishingRodValidations = void 0;
+exports.fishingRodValidation = void 0;
 const zod_1 = require("zod");
-exports.fishingRodValidations = zod_1.z.object({
+exports.fishingRodValidation = zod_1.z.object({
     name: zod_1.z
         .string()
         .trim()

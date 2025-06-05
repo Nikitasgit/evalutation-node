@@ -16,7 +16,7 @@ const response_1 = require("../utils/response");
 const logger_1 = __importDefault(require("../utils/logger"));
 const models_1 = require("../models");
 const zod_1 = require("zod");
-const place_validations_1 = require("../validations/place.validations");
+const validations_1 = require("../validations");
 const placesController = {
     get: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -34,7 +34,7 @@ const placesController = {
     }),
     create: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const { name } = place_validations_1.placeValidation.parse(request.body);
+            const { name } = validations_1.placeValidation.parse(request.body);
             const { user } = response.locals;
             logger_1.default.info("[POST] Créer un endroit");
             const existingPlace = yield models_1.placeModel.findByName(name);
@@ -71,7 +71,7 @@ const placesController = {
     update: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = request.params;
-            const { name } = place_validations_1.placeValidation.parse(request.body);
+            const { name } = validations_1.placeValidation.parse(request.body);
             const { user } = response.locals;
             logger_1.default.info("[UPDATE] Update d'un endroit");
             const existingPlace = yield models_1.placeModel.findByName(name);
