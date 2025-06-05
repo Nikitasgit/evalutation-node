@@ -1,0 +1,1 @@
+ALTER TABLE "fishing_rods" ADD COLUMN "catch_rate" integer NOT NULL;

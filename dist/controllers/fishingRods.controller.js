@@ -52,8 +52,13 @@ const fishingRodController = {
             if (existingFishingRod) {
                 return (0, response_1.APIResponse)(response, null, "Une canne à pêche avec ce nom existe déjà", 409);
             }
+            const userFishingRod = yield fishingRod_model_1.fishingRodModel.getByUserId(user.id);
+            if (userFishingRod) {
+                return (0, response_1.APIResponse)(response, null, "Vous possédez déjà une canne à pêche", 409);
+            }
             const newFishingRod = yield fishingRod_model_1.fishingRodModel.create({
                 name,
+                catchRate: Math.floor(Math.random() * 100),
                 createdById: user.id,
             });
             (0, response_1.APIResponse)(response, newFishingRod[0], "OK", 201);
@@ -81,6 +86,7 @@ const fishingRodController = {
             }
             const updatedFishingRod = yield fishingRod_model_1.fishingRodModel.update(id, {
                 name,
+                catchRate: existingFishingRod.catchRate,
                 createdById: user.id,
             });
             (0, response_1.APIResponse)(response, updatedFishingRod[0], "OK");

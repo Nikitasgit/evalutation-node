@@ -35,6 +35,7 @@ export const fishingRodModel = {
         columns: {
           id: true,
           name: true,
+          catchRate: true,
         },
         with: {
           createdBy: {
@@ -119,11 +120,19 @@ export const fishingRodModel = {
     }
   },
 
-  getByUserId: (userId: string) => {
+  getByUserId: async (userId: string) => {
     try {
-      return db.query.fishingRods.findFirst({
-        where: eq(fishingRods.createdById, userId),
-      });
+      const rods = await db
+        .select({
+          id: fishingRods.id,
+          name: fishingRods.name,
+          catchRate: fishingRods.catchRate,
+          createdById: fishingRods.createdById,
+        })
+        .from(fishingRods)
+        .where(eq(fishingRods.createdById, userId))
+        .execute();
+      return rods[0];
     } catch (err: any) {
       logger.error(
         `Erreur lors de la récupération de la canne à pêche: ${err.message}`

@@ -7,6 +7,7 @@ import { fishValidation } from "../validations";
 import { fishingRodModel } from "../models/fishingRod.model";
 import { userModel } from "../models/users.model";
 import { UpdateUser } from "../entities/User";
+import { calculateCatchProbability } from "../utils/functions";
 
 const fishesController = {
   get: async (request: Request, response: Response) => {
@@ -56,6 +57,7 @@ const fishesController = {
         name,
         placeId,
         userId: user.id,
+        level: Math.floor(Math.random() * 100),
       });
 
       APIResponse(response, fish, "OK", 201);
@@ -153,9 +155,12 @@ const fishesController = {
     try {
       const { id } = request.params;
       const { user } = response.locals;
+
       logger.info("[POST] Capture d'un poisson");
+
       const fish = await fishModel.get(id);
       if (!fish) return APIResponse(response, null, "Poisson introuvable", 404);
+
       const fishingRod = await fishingRodModel.getByUserId(user.id);
       if (!fishingRod) {
         return APIResponse(
@@ -165,6 +170,7 @@ const fishesController = {
           403
         );
       }
+
       const place = await placeModel.get(fish.placeId);
       if (place?.createdBy.id !== user.id) {
         return APIResponse(
@@ -174,13 +180,38 @@ const fishesController = {
           403
         );
       }
+
+      const catchProbability = calculateCatchProbability(
+        fish.level,
+        fishingRod.catchRate
+      );
+
+      const success = Math.random() < catchProbability;
+
+      if (!success) {
+        return APIResponse(
+          response,
+          null,
+          `Échec de la capture ! (${Math.round(
+            catchProbability * 100
+          )}% de chance)`,
+          200
+        );
+      }
+
       const updateData: UpdateUser = {
         level: Number(user.level) + 1,
         updatedAt: new Date(),
       };
       const updatedUser = await userModel.update(user.id, updateData);
       await fishModel.delete(id, user.id);
-      APIResponse(response, updatedUser[0], "OK", 201);
+
+      APIResponse(
+        response,
+        updatedUser[0],
+        "Poisson capturé avec succès !",
+        201
+      );
     } catch (error: any) {
       logger.error("Erreur lors de la capture du poisson: " + error.message);
       APIResponse(response, null, "Erreur lors de la capture du poisson", 500);

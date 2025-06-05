@@ -19,6 +19,7 @@ const zod_1 = require("zod");
 const validations_1 = require("../validations");
 const fishingRod_model_1 = require("../models/fishingRod.model");
 const users_model_1 = require("../models/users.model");
+const functions_1 = require("../utils/functions");
 const fishesController = {
     get: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -54,6 +55,7 @@ const fishesController = {
                 name,
                 placeId,
                 userId: user.id,
+                level: Math.floor(Math.random() * 100),
             });
             (0, response_1.APIResponse)(response, fish, "OK", 201);
         }
@@ -134,13 +136,18 @@ const fishesController = {
             if ((place === null || place === void 0 ? void 0 : place.createdBy.id) !== user.id) {
                 return (0, response_1.APIResponse)(response, null, "Vous n'êtes pas autorisé à capturer ce poisson", 403);
             }
+            const catchProbability = (0, functions_1.calculateCatchProbability)(fish.level, fishingRod.catchRate);
+            const success = Math.random() < catchProbability;
+            if (!success) {
+                return (0, response_1.APIResponse)(response, null, `Échec de la capture ! (${Math.round(catchProbability * 100)}% de chance)`, 200);
+            }
             const updateData = {
                 level: Number(user.level) + 1,
                 updatedAt: new Date(),
             };
             const updatedUser = yield users_model_1.userModel.update(user.id, updateData);
             yield models_1.fishModel.delete(id, user.id);
-            (0, response_1.APIResponse)(response, updatedUser[0], "OK", 201);
+            (0, response_1.APIResponse)(response, updatedUser[0], "Poisson capturé avec succès !", 201);
         }
         catch (error) {
             logger_1.default.error("Erreur lors de la capture du poisson: " + error.message);

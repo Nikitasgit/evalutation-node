@@ -46,6 +46,7 @@ exports.fishingRodModel = {
                 columns: {
                     id: true,
                     name: true,
+                    catchRate: true,
                 },
                 with: {
                     createdBy: {
@@ -120,15 +121,23 @@ exports.fishingRodModel = {
             throw new Error("Impossible de rechercher la canne à pêche");
         }
     },
-    getByUserId: (userId) => {
+    getByUserId: (userId) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            return pool_1.db.query.fishingRods.findFirst({
-                where: (0, drizzle_orm_1.eq)(schemas_1.fishingRods.createdById, userId),
-            });
+            const rods = yield pool_1.db
+                .select({
+                id: schemas_1.fishingRods.id,
+                name: schemas_1.fishingRods.name,
+                catchRate: schemas_1.fishingRods.catchRate,
+                createdById: schemas_1.fishingRods.createdById,
+            })
+                .from(schemas_1.fishingRods)
+                .where((0, drizzle_orm_1.eq)(schemas_1.fishingRods.createdById, userId))
+                .execute();
+            return rods[0];
         }
         catch (err) {
             logger_1.default.error(`Erreur lors de la récupération de la canne à pêche: ${err.message}`);
             throw new Error("Impossible de récupérer la canne à pêche");
         }
-    },
+    }),
 };
