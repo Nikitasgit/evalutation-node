@@ -1,11 +1,8 @@
 import { db } from "../config/pool";
 import logger from "../utils/logger";
 import { users } from "../schemas";
-import { NewUser, User } from "../entities/User";
+import { NewUser, UpdateUser } from "../entities/User";
 import { eq } from "drizzle-orm";
-import { fishes } from "../schemas";
-import { places } from "../schemas";
-import { fishingRods } from "../schemas";
 
 export const userModel = {
   getAll: () => {
@@ -86,12 +83,13 @@ export const userModel = {
       throw new Error("Impossible de créer l'utilisateur");
     }
   },
-  update: (id: string, user: NewUser) => {
+  update: (id: string, user: UpdateUser) => {
     try {
       return db.update(users).set(user).where(eq(users.id, id)).returning({
         id: users.id,
         username: users.username,
         email: users.email,
+        level: users.level,
       });
     } catch (err: any) {
       logger.error(

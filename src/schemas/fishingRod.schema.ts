@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, integer } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { users } from "./user.schema";
 
 export const fishingRods = pgTable("fishing_rods", {

@@ -99,6 +99,7 @@ exports.userModel = {
                 id: schemas_1.users.id,
                 username: schemas_1.users.username,
                 email: schemas_1.users.email,
+                level: schemas_1.users.level,
             });
         }
         catch (err) {

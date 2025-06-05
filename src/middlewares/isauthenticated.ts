@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env";
 import { APIResponse } from "../utils";
+import { userModel } from "../models/users.model";
 
 const { JWT_SECRET } = env;
 
-export const isAuthenticated = (
+export const isAuthenticated = async (
   request: Request,
   response: Response,
   next: NextFunction
@@ -15,8 +16,12 @@ export const isAuthenticated = (
     return APIResponse(response, null, "Vous devez être connecté", 401);
 
   try {
-    const decoded = jwt.verify(accessToken, JWT_SECRET);
-    response.locals.user = decoded;
+    const decoded = jwt.verify(accessToken, JWT_SECRET) as { id: string };
+    const user = await userModel.get(decoded.id);
+    if (!user) {
+      return APIResponse(response, null, "Utilisateur introuvable", 401);
+    }
+    response.locals.user = user;
     next();
   } catch (err: any) {
     return APIResponse(response, null, "Token invalide", 401);

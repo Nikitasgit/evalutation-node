@@ -31,6 +31,7 @@ export const fishModel = {
           id: true,
           name: true,
           level: true,
+          placeId: true,
         },
         with: {
           place: {

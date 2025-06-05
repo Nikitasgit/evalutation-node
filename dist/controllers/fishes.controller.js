@@ -17,6 +17,8 @@ const logger_1 = __importDefault(require("../utils/logger"));
 const models_1 = require("../models");
 const zod_1 = require("zod");
 const validations_1 = require("../validations");
+const fishingRod_model_1 = require("../models/fishingRod.model");
+const users_model_1 = require("../models/users.model");
 const fishesController = {
     get: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -114,6 +116,34 @@ const fishesController = {
         catch (error) {
             logger_1.default.error("Erreur lors de la récupération des poissons: " + error.message);
             (0, response_1.APIResponse)(response, null, "Erreur lors de la récupération des poissons", 500);
+        }
+    }),
+    catch: (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const { id } = request.params;
+            const { user } = response.locals;
+            logger_1.default.info("[POST] Capture d'un poisson");
+            const fish = yield models_1.fishModel.get(id);
+            if (!fish)
+                return (0, response_1.APIResponse)(response, null, "Poisson introuvable", 404);
+            const fishingRod = yield fishingRod_model_1.fishingRodModel.getByUserId(user.id);
+            if (!fishingRod) {
+                return (0, response_1.APIResponse)(response, null, "Vous n'avez pas de canne à pêche", 403);
+            }
+            const place = yield models_1.placeModel.get(fish.placeId);
+            if ((place === null || place === void 0 ? void 0 : place.createdBy.id) !== user.id) {
+                return (0, response_1.APIResponse)(response, null, "Vous n'êtes pas autorisé à capturer ce poisson", 403);
+            }
+            const updateData = {
+                level: Number(user.level) + 1,
+            };
+            const updatedUser = yield users_model_1.userModel.update(user.id, updateData);
+            yield models_1.fishModel.delete(id, user.id);
+            (0, response_1.APIResponse)(response, updatedUser[0], "OK", 201);
+        }
+        catch (error) {
+            logger_1.default.error("Erreur lors de la capture du poisson: " + error.message);
+            (0, response_1.APIResponse)(response, null, "Erreur lors de la capture du poisson", 500);
         }
     }),
 };

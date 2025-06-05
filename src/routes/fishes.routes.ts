@@ -14,4 +14,6 @@ router.put("/:id", isAuthenticated, controller.update);
 
 router.delete("/:id", isAuthenticated, controller.delete);
 
+router.post("/:id/catch", isAuthenticated, controller.catch);
+
 export default router;

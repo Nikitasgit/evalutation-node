@@ -120,4 +120,15 @@ exports.fishingRodModel = {
             throw new Error("Impossible de rechercher la canne à pêche");
         }
     },
+    getByUserId: (userId) => {
+        try {
+            return pool_1.db.query.fishingRods.findFirst({
+                where: (0, drizzle_orm_1.eq)(schemas_1.fishingRods.createdById, userId),
+            });
+        }
+        catch (err) {
+            logger_1.default.error(`Erreur lors de la récupération de la canne à pêche: ${err.message}`);
+            throw new Error("Impossible de récupérer la canne à pêche");
+        }
+    },
 };

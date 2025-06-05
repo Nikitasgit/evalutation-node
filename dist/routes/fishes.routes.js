@@ -12,4 +12,5 @@ router.get("/:id", fishes_controller_1.default.get);
 router.post("/", middlewares_1.isAuthenticated, fishes_controller_1.default.create);
 router.put("/:id", middlewares_1.isAuthenticated, fishes_controller_1.default.update);
 router.delete("/:id", middlewares_1.isAuthenticated, fishes_controller_1.default.delete);
+router.post("/:id/catch", middlewares_1.isAuthenticated, fishes_controller_1.default.catch);
 exports.default = router;

@@ -118,4 +118,17 @@ export const fishingRodModel = {
       throw new Error("Impossible de rechercher la canne à pêche");
     }
   },
+
+  getByUserId: (userId: string) => {
+    try {
+      return db.query.fishingRods.findFirst({
+        where: eq(fishingRods.createdById, userId),
+      });
+    } catch (err: any) {
+      logger.error(
+        `Erreur lors de la récupération de la canne à pêche: ${err.message}`
+      );
+      throw new Error("Impossible de récupérer la canne à pêche");
+    }
+  },
 };
