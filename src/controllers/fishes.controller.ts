@@ -176,6 +176,7 @@ const fishesController = {
       }
       const updateData: UpdateUser = {
         level: Number(user.level) + 1,
+        updatedAt: new Date(),
       };
       const updatedUser = await userModel.update(user.id, updateData);
       await fishModel.delete(id, user.id);

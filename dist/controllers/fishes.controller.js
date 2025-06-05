@@ -136,6 +136,7 @@ const fishesController = {
             }
             const updateData = {
                 level: Number(user.level) + 1,
+                updatedAt: new Date(),
             };
             const updatedUser = yield users_model_1.userModel.update(user.id, updateData);
             yield models_1.fishModel.delete(id, user.id);

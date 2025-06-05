@@ -48,7 +48,7 @@ const usersController = {
                     return (0, response_1.APIResponse)(response, null, "Ce nom d'utilisateur est déjà utilisé", 400);
                 }
             }
-            const updatedUser = yield models_1.userModel.update(user.id, Object.assign(Object.assign({}, user), { username: username || user.username, email: email || user.email }));
+            const updatedUser = yield models_1.userModel.update(user.id, Object.assign(Object.assign({}, user), { username: username || user.username, email: email || user.email, updatedAt: new Date() }));
             (0, response_1.APIResponse)(response, updatedUser[0], "OK", 201);
         }
         catch (error) {

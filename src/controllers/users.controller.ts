@@ -59,6 +59,7 @@ const usersController = {
         ...user,
         username: username || user.username,
         email: email || user.email,
+        updatedAt: new Date(),
       });
 
       APIResponse(response, updatedUser[0], "OK", 201);
