@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.users = void 0;
 const pg_core_1 = require("drizzle-orm/pg-core");
+const _1 = require("./");
 exports.users = (0, pg_core_1.pgTable)("users", {
-    id: (0, pg_core_1.uuid)("id").defaultRandom().primaryKey(),
+    id: (0, pg_core_1.uuid)("id").primaryKey().defaultRandom(),
+    fishingRod: (0, pg_core_1.uuid)("fishing_rod").references(() => _1.fishingRods.id),
     email: (0, pg_core_1.varchar)("email", { length: 255 }).notNull().unique(),
     username: (0, pg_core_1.varchar)("username", { length: 255 }).notNull().unique(),
     password: (0, pg_core_1.varchar)("password", { length: 255 }).notNull(),

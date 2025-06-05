@@ -1,6 +1,6 @@
 {
-  "id": "91194bdd-b49f-4651-b7bb-4d619e2285fb",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "79be9819-125b-4092-887e-c081b3b31517",
+  "prevId": "091c3b91-9cd5-49b9-a0d6-14b96c743155",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -46,12 +46,6 @@
           "notNull": true,
           "default": 1
         },
-        "place_id": {
-          "name": "place_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -81,19 +75,6 @@
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
-        },
-        "users_place_id_places_id_fk": {
-          "name": "users_place_id_places_id_fk",
-          "tableFrom": "users",
-          "tableTo": "places",
-          "columnsFrom": [
-            "place_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -110,13 +91,6 @@
           "nullsNotDistinct": false,
           "columns": [
             "username"
-          ]
-        },
-        "users_place_id_unique": {
-          "name": "users_place_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "place_id"
           ]
         }
       },
@@ -205,7 +179,15 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "fishes_name_unique": {
+          "name": "fishes_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -284,7 +266,15 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "places_name_unique": {
+          "name": "places_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

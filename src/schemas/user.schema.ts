@@ -5,9 +5,11 @@ import {
   varchar,
   integer,
 } from "drizzle-orm/pg-core";
+import { places, fishingRods } from "./";
 
 export const users = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
+  fishingRod: uuid("fishing_rod").references(() => fishingRods.id),
   email: varchar("email", { length: 255 }).notNull().unique(),
   username: varchar("username", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(),
