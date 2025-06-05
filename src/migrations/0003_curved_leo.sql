@@ -1,0 +1,1 @@
+ALTER TABLE "fishing_rods" DROP COLUMN "level";

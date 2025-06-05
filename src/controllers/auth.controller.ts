@@ -45,8 +45,12 @@ const authController = {
         sameSite: "strict",
         secure: NODE_ENV === "production",
       });
-
-      APIResponse(response, null, "Vous êtes bien connecté", 200);
+      const userResponse = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      };
+      APIResponse(response, userResponse, "Vous êtes bien connecté", 200);
     } catch (err: any) {
       logger.error(
         `Erreur lors de la connexion de l'utilisateur: ${err.message}`

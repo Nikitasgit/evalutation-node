@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./auth.controller"), exports);
 __exportStar(require("./fishes.controller"), exports);
 __exportStar(require("./places.controller"), exports);
+__exportStar(require("./fishingRods.controller"), exports);

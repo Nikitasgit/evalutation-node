@@ -1,11 +1,9 @@
 import { relations } from "drizzle-orm";
 import { users, fishes, fishingRods, places } from "../schemas";
 
-export const userRelations = relations(users, ({ one }) => ({
-  fishingRod: one(fishingRods, {
-    fields: [users.fishingRod],
-    references: [fishingRods.id],
-  }),
+export const userRelations = relations(users, ({ many }) => ({
+  fishingRods: many(fishingRods),
+  places: many(places),
 }));
 
 export const fishRelations = relations(fishes, ({ one }) => ({
@@ -22,6 +20,9 @@ export const placeRelations = relations(places, ({ one }) => ({
   }),
 }));
 
-export const fishingRodRelations = relations(fishingRods, ({ many }) => ({
-  users: many(users),
+export const fishingRodRelations = relations(fishingRods, ({ one }) => ({
+  createdBy: one(users, {
+    fields: [fishingRods.createdById],
+    references: [users.id],
+  }),
 }));

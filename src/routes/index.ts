@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRouter from "./auth.routes";
 import fishesRouter from "./fishes.routes";
 import placesRouter from "./places.routes";
+import fishingRodsRouter from "./fishingRods.routes";
 
 const router = Router();
 
@@ -12,4 +13,6 @@ router.get("/", (req, res) => {
 router.use("/auth", authRouter);
 router.use("/fishes", fishesRouter);
 router.use("/places", placesRouter);
+router.use("/fishingRods", fishingRodsRouter);
+
 export default router;
