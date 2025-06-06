@@ -1,99 +1,94 @@
 ## Description
 
-Une API Node.js simple qui simule un jeu de pêche. Les utilisateurs peuvent créer une canne à pêche, ajouter un lieu de pêche, ajouter des poissons au lieu de pêche et capturer des poissons avec une probabilité de réussite basée sur leur équipement, et monter de niveau.
+**Une API Node.js simple qui simule un jeu de pêche. Les utilisateurs peuvent créer une canne à pêche, ajouter un lieu de pêche, ajouter des poissons au lieu de pêche et capturer des poissons avec une probabilité de réussite basée sur leur équipement, et monter de niveau.**
 
 ## Fonctionnalités
 
-1. Gestion des utilisateurs
+### Gestion des utilisateurs
 
-Créer un utilisateur → [POST] /auth/register
-Champs requis :
+**Créer un utilisateur →** [POST] /auth/register
+
+**Champs requis :**
 
 - username (unique)
-
 - email (unique)
-
 - password : minimum 12 caractères, incluant une majuscule, un caractère spécial, et un chiffre
 
-Connexion → [POST] /auth/login
+**Connexion →** [POST] /auth/login
 
-Déconnexion → [GET] /auth/logout
+**Déconnexion →** [GET] /auth/logout
 
-Modification de profil → [PUT] /users
+**Modification de profil →** [PUT] /users
 
-Suppression de compte → [DELETE] /users
+**Suppression de compte →** [DELETE] /users
 
-2. Gestion des lieux de pêche
+### Gestion des lieux de pêche
 
-Créer un lieu → [POST] /places
-Champs requis :
+**Créer un lieu →** [POST] /places
+
+**Champs requis :**
 
 - name (unique)
 
-Modifier un lieu → [PUT] /places/:id
+**Modifier un lieu →** [PUT] /places/:id
 
-Supprimer un lieu → [DELETE] /places/:id
+**Supprimer un lieu →** [DELETE] /places/:id
 
-Récupérer ses lieux → [GET] /places
+**Récupérer ses lieux →** [GET] /places
 
-3. Gestion des cannes à pêche
+### Gestion des cannes à pêche
 
 Créer une canne → [POST] /fishingRods
-Champs requis :
+
+**Champs requis :**
 
 - name
 
-Modifier une canne → [PUT] /fishingRods/:id
+**Modifier une canne →** [PUT] /fishingRods/:id
 
-Supprimer une canne → [DELETE] /fishingRods/:id
+**Supprimer une canne →** [DELETE] /fishingRods/:id
 
-Récupérer une canne → [GET] /fishingRods
+**Récupérer une canne →** [GET] /fishingRods
 
-Récupérer toutes les cannes → [GET] /fishingRods/all
+**Récupérer toutes les cannes →** [GET] /fishingRods/all
 
-4. Gestion des poissons
+### Gestion des poissons
 
-Créer un poisson aléatoire → [POST] /fishes
-Champs requis :
+**Créer un poisson aléatoire →** [POST] /fishes
+
+**Champs requis :**
 
 - name (unique)
-
 - placeId (UUID d’un lieu existant)
-
 - Le level est généré aléatoirement entre 1 et 100
 
-Modifier un poisson → [PUT] /fishes/:id
+**Modifier un poisson →** [PUT] /fishes/:id
 
-Supprimer un poisson → [DELETE] /fishes/:id
+**Supprimer un poisson →** [DELETE] /fishes/:id
 
-Récupérer tous les poissons → [GET] /fishes
+**Récupérer tous les poissons →** [GET] /fishes
 
-Récupérer un poisson spécifique → [GET] /fishes/:id
+**Récupérer un poisson spécifique →** [GET] /fishes/:id
 
-5. Capture de poissons
+### Capture de poissons
 
-Tenter de capturer un poisson → [POST] /fishes/:id/catch
+**Tenter de capturer un poisson →** [POST] /fishes/:id/catch
 
 Le joueur doit être le créateur du lieu où se trouve le poisson
-
 Le joueur doit posséder une canne à pêche
-
 La probabilité de réussite est basée sur la formule :
 catchRate (canne) − level (poisson)
 
-Ex. : un poisson de niveau 40 et une canne à 65% de catchRate donne 25% de chances de réussite
+**Ex. :** un poisson de niveau 40 et une canne à 65% de catchRate donne 25% de chances de réussite
 
-a. En cas de succès :
-
+**a. En cas de succès :**
 Le poisson est supprimé
 Le joueur gagne +1 niveau
 
-b. En cas d’échec :
-
+**b. En cas d’échec :**
 Aucun changement
 
-!!
-L'utilisateur doit avoir créé un lieu, une canne à pèche et au moins un poisson avant de pouvoir commencer à pécher.
+<ins>!! L'utilisateur doit avoir créé un lieu, une canne à pèche et au moins un poisson avant de pouvoir commencer à pécher.</ins>
 
 ## Relations entre entités
 
@@ -118,17 +113,21 @@ Avant de lancer l'application, assure-toi de définir les variables d'environnem
 
 ## Modèle de données (Drizzle ORM)
 
-1. Utilisateur (users)
-   id, email, username, password, level, createdAt, updatedAt
+### Utilisateur (users)
 
-2. Canne à pêche (fishing_rods)
-   id, name, createdById, catchRate
+id, email, username, password, level, createdAt, updatedAt
 
-3. Lieu de pêche (places)
-   id, name, createdById
+### Canne à pêche (fishing_rods)
 
-4. Poisson (fishes)
-   id, name, level, userId, placeId, createdAt, updatedAt
+id, name, createdById, catchRate
+
+### Lieu de pêche (places)
+
+id, name, createdById
+
+### Poisson (fishes)
+
+id, name, level, userId, placeId, createdAt, updatedAt
 
 ## Commandes NPM
 
@@ -137,3 +136,5 @@ Avant de lancer l'application, assure-toi de définir les variables d'environnem
 | `npm run migrate` | Applique les migrations à la base de données. Elle exécute tous les fichiers de migration générés pour mettre à jour la structure des tables.
 
 | `npm run dev` | Démarre le serveur en mode développement avec `ts-node-dev`. Il recharge automatiquement l'application à chaque modification de fichier.
+
+| `npm run studio` | Rend la base de donnée accessible via le studio Drizzle sur https://local.drizzle.studio.

@@ -7,7 +7,7 @@ import usersRouter from "./users.routes";
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.send("Bienvenue sur l'API des pécheurs (j'avais pas d'idée) !");
+  res.send("Bienvenue sur l'API des pêcheurs (j'avais pas d'idée) !");
 });
 
 router.use("/auth", authRouter);
